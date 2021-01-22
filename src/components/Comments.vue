@@ -1,5 +1,6 @@
 <template>
     <div class="container mt-5">
+    <h3>Application in Vue.js</h3>
     <hr />
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
@@ -13,7 +14,7 @@
     <h3>Comments</h3>
     <hr /> 
 
-    <div v-for="(comment, index) in comments" v-bind:key="comment.id" class="card mb-3" >
+    <div v-for="(comment, index) in allComments" v-bind:key="comment.id" class="card mb-3" >
         <div  class="card-body">
             <h5 class="card-title"><strong>{{ comment.name }}</strong></h5>
             <hr/>
@@ -36,7 +37,7 @@ export default {
   },
   methods: {
     addComment() {
-      if (this.name == "" && this.message == "") return;
+      if (this.message == "") return;
       this.comments.push({
         name: this.name,
         message: this.message,
@@ -49,5 +50,14 @@ export default {
       this.comments.splice(index, 1);
     },
   },
+  computed: {
+      allComments(){
+          return this.comments.map(comment => ({
+              ...comment,
+              name: comment.name.trim() == '' ? 'Anonymous' : comment.name
+          }))
+      }
+  },
+  watch:{}
 };
 </script>
